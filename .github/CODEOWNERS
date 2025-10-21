@@ -1,0 +1,7 @@
+# O usuário 'RafaelVier' e "ArthurBassani" são os donos de todos os arquivos do projeto
+# Esta é uma regra geral (catch-all)
+* @RafaelVier
+* @ArthurBassani
+
+# O usuário "josedev2003" é também dono do projeto
+/src/ @josedev2003
