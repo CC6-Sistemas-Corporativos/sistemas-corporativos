@@ -1,0 +1,28 @@
+services:
+  # =============================================================================
+  # POSTGRES
+  # =============================================================================
+  pg:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./resources/static/sql:/docker-entrypoint-init.d
+    deploy:
+      update_config:
+        order: stop-first
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  pg_data:
