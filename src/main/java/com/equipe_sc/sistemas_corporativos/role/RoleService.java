@@ -45,6 +45,7 @@ public class RoleService {
     }
 
     public Set<Role> findRolesByNameIn(Set<RoleName> names) {
+        this.logger.info("[RoleService] Fetching roles by names: {}", names);
         return this.repository.findRolesByNameIn(names);
     }
 

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -78,18 +79,25 @@ public class UserService {
 
     @Transactional
     public User create(@Valid RegisterRequestDto request) {
-        this.logger.info("[UserService] - Creating user with username: " + request.username());
+        this.logger.info("[UserService] - Creating user with username: {}", request.username());
+
+        User user = this.mapper.map(request, this.passwordEncoder.encode(request.password()));
 
         Set<Role> roles = this.roleService.findRolesByNameIn(request.roles());
+        this.logger.info("[UserService] - Roles found: {}", roles.size());
 
-        if (request.roles() != null && request.roles().size() != roles.size()){
-            throw new EntityNotFoundException("One or more roles not found");
+        if (request.roles() != null){
+            if (request.roles().size() != roles.size()){
+                throw new EntityNotFoundException("One or more roles not found");
+            }
+            user.setRoles(roles);
+        } else {
+          user.setRoles(roles.stream().filter(Role::isCandidate).collect(Collectors.toSet()));
         }
 
-        User user = this.mapper.map(request, this.passwordEncoder.encode(request.password()), roles);
         User savedUser = this.repository.saveAndFlush(user);
 
-        this.logger.info("[UserService] - User created with id: " + savedUser.getId());
+        this.logger.info("[UserService] - User created with id: {}", savedUser.getId());
         return savedUser;
     }
 

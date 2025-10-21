@@ -37,9 +37,6 @@ public class Role {
         return this.name.name();
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
-    private Set<User> users;
-
     public boolean isAdmin() {
         return this.name == RoleName.ROLE_ADMIN;
     }

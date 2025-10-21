@@ -11,11 +11,10 @@ import java.util.stream.Collectors;
 
 @Mapper(
         componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
+        unmappedTargetPolicy = ReportingPolicy.ERROR
 )
 public interface RoleMapper {
 
-    @Mapping(target = "id", source = "role.id")
     @Mapping(target = "name", expression = "java(role.getName())")
     RoleResponseDto map(Role role);
 

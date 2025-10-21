@@ -1,6 +1,6 @@
 package com.equipe_sc.sistemas_corporativos.user;
 
-import com.equipe_sc.sistemas_corporativos.employee.Candidate;
+import com.equipe_sc.sistemas_corporativos.candidate.Candidate;
 import com.equipe_sc.sistemas_corporativos.role.Role;
 import com.equipe_sc.sistemas_corporativos.role.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;

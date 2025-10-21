@@ -24,13 +24,13 @@ public class InitializerConfig implements CommandLineRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
         this.logger.info("[InitializerConfig] - Verifying roles...");
         this.verifyRoles();
     }
 
-    private void verifyRoles(){
+    @Transactional
+    protected void verifyRoles(){
         Set<Role> existingRoles = new HashSet<>(this.roleService.findAll());
 
         if(existingRoles.isEmpty()){
