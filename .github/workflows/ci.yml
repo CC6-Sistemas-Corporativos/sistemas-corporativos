@@ -40,7 +40,7 @@ jobs:
 
       # Exemplo com Checkstyle (ou outro plugin configurado no pom.xml)
       - name: Executar Lint com Maven
-        run: mvn -B checkstyle:check --file pom.xml
+        run: mvn -B checkstyle:check -Dcheckstyle.config.location=config/my_checkstyle_rules.xml --file pom.xml
 
   # JOB 2 — BUILD
   build:
