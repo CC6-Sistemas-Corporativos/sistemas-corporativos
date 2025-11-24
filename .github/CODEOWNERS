@@ -1,7 +1,13 @@
-# O usuário 'RafaelVier' e "ArthurBassani" são os donos de todos os arquivos do projeto
-# Esta é uma regra geral (catch-all)
-* @RafaelVier
-* @ArthurBassani
+# --- Regra Global ---
+# Define um dono padrão para tudo no repositório.
+* @RafaelVier @ArthurBassani
 
-# O usuário "josedev2003" é também dono do projeto
-/src/ @josedev2003
+# --- Regras por Tipo de Arquivo ---
+*.java    @ArthurBassani
+
+# Arquivos de documentação (.md)
+*.md    @RafaelVier
+
+# --- Regras por Diretório ---
+/.github/ @RafaelVier
+/src/ @josedev2003 @ArthurBassani
