@@ -50,7 +50,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto request) {
+    public ResponseEntity<RegisterResponseDto> register(@org.jetbrains.annotations.NotNull @RequestBody @Valid RegisterRequestDto request) {
         this.logger.info("[AuthController] Attempting to register user: {}", request.username());
         try{
             this.authService.loadUserByUsername(request.username());
