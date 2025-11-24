@@ -1,0 +1,13 @@
+# --- Regra Global ---
+# Define um dono padrão para tudo no repositório.
+* @RafaelVier @ArthurBassani
+
+# --- Regras por Tipo de Arquivo ---
+*.java    @ArthurBassani
+
+# Arquivos de documentação (.md)
+*.md    @RafaelVier
+
+# --- Regras por Diretório ---
+/.github/ @RafaelVier
+/src/ @josedev2003 @ArthurBassani
