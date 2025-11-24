@@ -16,6 +16,6 @@ public record UserResponseDto(
         String address,
         LocalDate birthday,
         Role role,
-        LocalDateTime createTime,
-        LocalDateTime updateTime
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) { }

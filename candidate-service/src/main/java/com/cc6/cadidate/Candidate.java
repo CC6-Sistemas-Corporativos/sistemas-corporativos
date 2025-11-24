@@ -1,12 +1,15 @@
-package com.cc6.user.classes;
+package com.cc6.cadidate;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,25 +19,14 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE id = ?")
-public class User {
+@Table(name = "candidates")
+@SQLDelete(sql = "UPDATE candidates SET deleted_at = NOW() WHERE id = ?")
+public class Candidate {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    private String email;
-    private String password;
-    private String phone;
 
-    @Column(name = "cpf", length = 11)
-    private String cpf;
-
-    private String address;
-    private LocalDate birthday;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private UUID userId;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -47,4 +39,3 @@ public class User {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 }
-

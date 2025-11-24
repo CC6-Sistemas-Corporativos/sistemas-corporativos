@@ -1,20 +1,19 @@
-package com.cc6.user.dtos;
-
-import com.cc6.user.classes.Role;
-import com.fasterxml.jackson.annotation.JsonFormat;
+package com.cc6.cadidate.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record UserRequestDto(
+public record User(
+        UUID id,
         String name,
         String email,
         String password,
         String phone,
         String cpf,
         String address,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDate birthday,
-        Role role
+        String role,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) { }

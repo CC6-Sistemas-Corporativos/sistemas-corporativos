@@ -1,11 +1,11 @@
 package com.cc6.user.classes;
 
+import com.cc6.user.dtos.UserRequestDto;
 import com.cc6.user.dtos.UserResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,6 +31,20 @@ public class UserService {
 
     public UserResponseDto getById(UUID id) {
         return this.mapper.map(this.findById(id));
+    }
+
+    public UserResponseDto create(UserRequestDto request) {
+        User user = this.mapper.map(request);
+        user.setPassword(request.password());
+        User savedUser = this.repository.saveAndFlush(user);
+        return this.mapper.map(savedUser);
+    }
+
+    public UserResponseDto update(UUID id, UserRequestDto request) {
+        User user = this.findById(id);
+        this.mapper.map(user, request);
+        User updatedUser = this.repository.saveAndFlush(user);
+        return this.mapper.map(updatedUser);
     }
 
 }
