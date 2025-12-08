@@ -1,10 +1,8 @@
-package com.cc6.cadidate;
+package com.cc6.cadidate.classes;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.cc6.cadidate.dtos.user.User;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -26,7 +24,14 @@ public class Candidate {
     @Id
     private UUID id;
 
+    @Column(name = "curriculum_url", nullable = false)
+    private String curriculumUrl;
+
+    @Column(name = "user_id", nullable = false, unique = true)
     private UUID userId;
+
+    @Transient // Não será persistido no banco de candidates
+    private User user;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
