@@ -10,7 +10,6 @@ public record UserResponseDto(
         UUID id,
         String name,
         String email,
-        String password,
         String phone,
         String cpf,
         String address,
