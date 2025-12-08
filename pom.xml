@@ -8,6 +8,7 @@
         <module>gateway-service</module>
         <module>user-service</module>
         <module>candidate-service</module>
+        <module>recruiter-service</module>
     </modules>
     <properties>
         <java.version>17</java.version>
