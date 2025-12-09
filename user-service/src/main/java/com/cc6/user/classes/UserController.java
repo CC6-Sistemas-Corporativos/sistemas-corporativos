@@ -70,10 +70,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário a ser atualizado não encontrado."),
             @ApiResponse(responseCode = "400", description = "Dados de requisição inválidos.")
     })
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> update(
             @Parameter(description = "ID do usuário a ser atualizado (passado como parâmetro de consulta).", example = "a1b2c3d4-e5f6-7890-1234-567890abcdef")
-            @RequestParam UUID id,
+            @PathVariable UUID id,
             @RequestBody UserRequestDto request
     ){
         return ResponseEntity.ok(this.service.update(id, request));

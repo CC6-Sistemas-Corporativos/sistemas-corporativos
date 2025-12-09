@@ -1,7 +1,7 @@
 package com.cc6.cadidate.clients;
 
+import com.cc6.cadidate.dtos.user.UserDto;
 import com.cc6.cadidate.dtos.user.UserRequestDto;
-import com.cc6.cadidate.dtos.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,12 +28,12 @@ public class UserClient {
         this.restTemplate = new RestTemplate();
     }
 
-    public User getUserById(UUID id) {
-        this.logger.info("[UserClient] Fetching user by id: {}", id);
+    public UserDto getUserById(UUID id) {
+        this.logger.info("[UserClient] Fetching job by id: {}", id);
         try {
             String url = this.BASE_URL + "/" + id;
-            this.logger.info("[UserClient] Trying to fetch user, url: {}", url);
-            return restTemplate.getForObject(url, User.class);
+            this.logger.info("[UserClient] Trying to fetch job, url: {}", url);
+            return restTemplate.getForObject(url, UserDto.class);
 
         } catch (HttpClientErrorException.NotFound e) {
             throw new RuntimeException("Usuário não encontrado: " + id);
@@ -46,15 +46,15 @@ public class UserClient {
         }
     }
 
-    public User createUser(UserRequestDto request) {
+    public UserDto createUser(UserRequestDto request) {
         try {
-            return restTemplate.postForObject(this.BASE_URL, request, User.class);
+            return restTemplate.postForObject(this.BASE_URL, request, UserDto.class);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao criar usuário", e);
         }
     }
 
-    public User updateUser(UUID id, UserRequestDto request) {
+    public UserDto updateUser(UUID id, UserRequestDto request) {
         try {
             String url = this.BASE_URL + "/" + id;
             restTemplate.put(url, request);

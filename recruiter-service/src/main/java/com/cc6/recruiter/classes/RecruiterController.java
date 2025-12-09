@@ -36,9 +36,9 @@ public class RecruiterController {
         return ResponseEntity.ok(this.service.create(request));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<RecruiterResponseDto> update(
-            @RequestParam UUID id,
+            @PathVariable UUID id,
             @RequestBody RecruiterRequestDto request
     ){
         return ResponseEntity.ok(this.service.update(id, request));

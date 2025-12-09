@@ -1,11 +1,12 @@
 package com.cc6.cadidate.classes;
 
 
-import com.cc6.cadidate.dtos.user.User;
+import com.cc6.cadidate.dtos.user.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "candidates")
+@SQLRestriction("deleted_at IS NULL")
 @SQLDelete(sql = "UPDATE candidates SET deleted_at = NOW() WHERE id = ?")
 public class Candidate {
 
@@ -31,7 +33,7 @@ public class Candidate {
     private UUID userId;
 
     @Transient // Não será persistido no banco de candidates
-    private User user;
+    private UserDto user;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

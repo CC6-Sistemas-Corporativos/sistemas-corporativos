@@ -1,10 +1,10 @@
-package com.cc6.cadidate.dtos.user;
+package com.cc6.recruiter.dtos.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record User(
+public record UserDto(
         UUID id,
         String name,
         String email,
