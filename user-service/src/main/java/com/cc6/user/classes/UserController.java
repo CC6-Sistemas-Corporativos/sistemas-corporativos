@@ -52,6 +52,19 @@ public class UserController {
         return ResponseEntity.ok(this.service.getById(id));
     }
 
+    @Operation(summary = "Busca usuário por email", description = "Retorna os detalhes de um usuário específico utilizando seu email.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
+    })
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserResponseDto> getByEmail(
+            @Parameter(description = "Email do usuário a ser buscado.", example = "usuario@exemplo.com")
+            @PathVariable String email
+    ){
+        return ResponseEntity.ok(this.service.getByEmail(email));
+    }
+
     // --- CREATE ---
     @Operation(summary = "Cria um novo usuário", description = "Registra um novo usuário no sistema.")
     @ApiResponses(value = {
@@ -70,13 +83,19 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário a ser atualizado não encontrado."),
             @ApiResponse(responseCode = "400", description = "Dados de requisição inválidos.")
     })
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> update(
             @Parameter(description = "ID do usuário a ser atualizado (passado como parâmetro de consulta).", example = "a1b2c3d4-e5f6-7890-1234-567890abcdef")
-            @RequestParam UUID id,
+            @PathVariable UUID id,
             @RequestBody UserRequestDto request
     ){
         return ResponseEntity.ok(this.service.update(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        this.service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

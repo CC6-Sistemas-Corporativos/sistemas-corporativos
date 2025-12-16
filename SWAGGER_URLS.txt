@@ -1,0 +1,130 @@
+================================================================================
+                    URLs DO SWAGGER - SISTEMAS CORPORATIVOS
+================================================================================
+
+📚 DOCUMENTAÇÃO INTERATIVA DA API
+
+Cada serviço possui sua própria documentação Swagger/OpenAPI que permite:
+- Visualizar todos os endpoints disponíveis
+- Testar as requisições diretamente pelo navegador
+- Ver os modelos de dados (request/response)
+- Autenticar com token JWT
+
+================================================================================
+                            AMBIENTE DE DESENVOLVIMENTO
+================================================================================
+
+🔐 AUTH SERVICE (Porta 8085)
+   Swagger UI:  http://localhost:8085/v1/swagger-ui.html
+   API Docs:    http://localhost:8085/v1/api-docs
+
+👤 USER SERVICE (Porta 8081)
+   Swagger UI:  http://localhost:8081/v1/swagger-ui.html
+   API Docs:    http://localhost:8081/v1/api-docs
+
+📝 CANDIDATE SERVICE (Porta 8082)
+   Swagger UI:  http://localhost:8082/v1/swagger-ui.html
+   API Docs:    http://localhost:8082/v1/api-docs
+
+👔 RECRUITER SERVICE (Porta 8083)
+   Swagger UI:  http://localhost:8083/v1/swagger-ui.html
+   API Docs:    http://localhost:8083/v1/api-docs
+
+💼 JOB SERVICE (Porta 8084)
+   Swagger UI:  http://localhost:8084/v1/swagger-ui.html
+   API Docs:    http://localhost:8084/v1/api-docs
+
+🌐 GATEWAY SERVICE (Porta 8080)
+   Gateway:     http://localhost:8080
+
+================================================================================
+                            AMBIENTE DOCKER
+================================================================================
+
+Quando rodando via Docker, as portas são as mesmas:
+
+🔐 AUTH SERVICE:      http://localhost:8085/v1/swagger-ui.html
+👤 USER SERVICE:      http://localhost:8081/v1/swagger-ui.html
+📝 CANDIDATE SERVICE: http://localhost:8082/v1/swagger-ui.html
+👔 RECRUITER SERVICE: http://localhost:8083/v1/swagger-ui.html
+💼 JOB SERVICE:       http://localhost:8084/v1/swagger-ui.html
+
+================================================================================
+                        COMO USAR O SWAGGER COM AUTENTICAÇÃO
+================================================================================
+
+1. FAZER LOGIN:
+   - Acesse: http://localhost:8085/v1/swagger-ui.html
+   - Expanda: POST /v1/auth/login
+   - Clique em "Try it out"
+   - Cole o JSON:
+     {
+       "email": "admin@sistema.com",
+       "password": "admin123"
+     }
+   - Clique em "Execute"
+   - COPIE o token JWT do response
+
+2. AUTENTICAR NO SWAGGER:
+   - Clique no botão "Authorize" (cadeado) no topo da página
+   - Cole o token no formato: Bearer SEU_TOKEN_AQUI
+   - Clique em "Authorize" e depois "Close"
+
+3. TESTAR ENDPOINTS PROTEGIDOS:
+   - Agora você pode testar qualquer endpoint
+   - O token será enviado automaticamente
+
+================================================================================
+                        ATALHOS RÁPIDOS (CTRL+CLICK)
+================================================================================
+
+Desenvolvimento:
+- Auth:      http://localhost:8085/v1/swagger-ui.html
+- User:      http://localhost:8081/v1/swagger-ui.html
+- Candidate: http://localhost:8082/v1/swagger-ui.html
+- Recruiter: http://localhost:8083/v1/swagger-ui.html
+- Job:       http://localhost:8084/v1/swagger-ui.html
+
+================================================================================
+                        TROUBLESHOOTING
+================================================================================
+
+❌ Erro: "Unable to connect" ou "404"
+   ✅ Verifique se o serviço está rodando
+   ✅ Confirme a porta correta
+   ✅ Verifique o context-path (/v1)
+
+❌ Erro: "Unauthorized" ao testar endpoints
+   ✅ Faça login primeiro no Auth Service
+   ✅ Copie o token JWT
+   ✅ Clique em "Authorize" e cole: Bearer {token}
+
+❌ Swagger não carrega
+   ✅ Limpe o cache do navegador (Ctrl+Shift+R)
+   ✅ Verifique se springdoc está no pom.xml
+   ✅ Reinicie o serviço
+
+================================================================================
+                        COMANDOS ÚTEIS
+================================================================================
+
+# Iniciar todos os serviços (desenvolvimento)
+cd user-service && mvn spring-boot:run &
+cd candidate-service && mvn spring-boot:run &
+cd recruiter-service && mvn spring-boot:run &
+cd job-service && mvn spring-boot:run &
+cd auth-service && mvn spring-boot:run &
+cd gateway-service && mvn spring-boot:run &
+
+# Verificar se serviços estão rodando
+curl http://localhost:8081/v1/swagger-ui.html
+curl http://localhost:8082/v1/swagger-ui.html
+curl http://localhost:8083/v1/swagger-ui.html
+curl http://localhost:8084/v1/swagger-ui.html
+curl http://localhost:8085/v1/swagger-ui.html
+
+# Iniciar com Docker
+docker-compose up
+
+================================================================================
+

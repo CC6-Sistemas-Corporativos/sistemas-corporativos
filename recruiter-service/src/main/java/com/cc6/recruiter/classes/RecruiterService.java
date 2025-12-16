@@ -1,9 +1,9 @@
 package com.cc6.recruiter.classes;
 
 import com.cc6.recruiter.clients.UserClient;
-import com.cc6.cadidate.dtos.user.User;
 import com.cc6.recruiter.dtos.recruiter.RecruiterRequestDto;
 import com.cc6.recruiter.dtos.recruiter.RecruiterResponseDto;
+import com.cc6.recruiter.dtos.user.UserDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -44,9 +45,9 @@ public class RecruiterService {
         Recruiter recruiter = this.findById(id);
         this.logger.info("[RecruiterService] Found recruiter by id: {}", recruiter);
 
-        this.logger.info("[RecruiterService] Getting user by id: {}", recruiter.getUserId());
-        User user = this.userClient.getUserById(recruiter.getUserId());
-        this.logger.info("[RecruiterService] Found user: {}", user);
+        this.logger.info("[RecruiterService] Getting job by id: {}", recruiter.getUserId());
+        UserDto user = this.userClient.getUserById(recruiter.getUserId());
+        this.logger.info("[RecruiterService] Found job: {}", user);
         recruiter.setUser(user);
         return this.mapper.map(recruiter);
     }
@@ -54,18 +55,18 @@ public class RecruiterService {
     public RecruiterResponseDto create(RecruiterRequestDto request) {
         this.logger.info("[RecruiterService] Creating recruiter: {}", request);
 
-        User user;
+        UserDto user;
 
         if(request.userId() != null) {
-            this.logger.info("[RecruiterService] Fetching existing user with id: {}", request.userId());
+            this.logger.info("[RecruiterService] Fetching existing job with id: {}", request.userId());
             user = this.userClient.getUserById(request.userId());
-            this.logger.info("[RecruiterService] Fetched user: {}", user);
+            this.logger.info("[RecruiterService] Fetched job: {}", user);
         } else if(request.user() != null) {
-            this.logger.info("[RecruiterService] Creating new user for recruiter");
+            this.logger.info("[RecruiterService] Creating new job for recruiter");
             user = this.userClient.createUser(request.user());
-            this.logger.info("[RecruiterService] Created user: {}", user);
+            this.logger.info("[RecruiterService] Created job: {}", user);
         } else {
-            throw new IllegalArgumentException("Either userId or user details must be provided");
+            throw new IllegalArgumentException("Either userId or job details must be provided");
         }
 
         Recruiter recruiter = this.mapper.map(request);
@@ -81,14 +82,20 @@ public class RecruiterService {
         Recruiter recruiter = this.findById(id);
 
         if(request.user() != null) {
-            this.logger.info("[RecruiterService] Updating user for recruiter id: {}", id);
-            User updatedUser = this.userClient.updateUser(recruiter.getUserId(), request.user());
-            this.logger.info("[RecruiterService] Updated user: {}", updatedUser);
+            this.logger.info("[RecruiterService] Updating job for recruiter id: {}", id);
+            UserDto updatedUser = this.userClient.updateUser(recruiter.getUserId(), request.user());
+            this.logger.info("[RecruiterService] Updated job: {}", updatedUser);
             recruiter.setUser(updatedUser);
         }
 
         Recruiter updatedRecruiter = this.repository.saveAndFlush(recruiter);
         return this.mapper.map(updatedRecruiter);
+    }
+
+    public void delete(UUID id) {
+        Recruiter recruiter = this.findById(id);
+        recruiter.setDeletedAt(LocalDateTime.now());
+        this.repository.saveAndFlush(recruiter);
     }
 
 }

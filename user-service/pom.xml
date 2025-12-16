@@ -82,6 +82,11 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- Spring Security (apenas para BCryptPasswordEncoder usado no AdminUserInitializer) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
     </dependencies>
 

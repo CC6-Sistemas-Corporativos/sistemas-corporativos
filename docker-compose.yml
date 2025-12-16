@@ -11,6 +11,25 @@ services:
 #    environment:
 #      - SPRING_PROFILES_ACTIVE=local
   # =============================================================================
+  # AUTH SERVICE
+  # =============================================================================
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8085:8085"
+    environment:
+      - SERVER_PORT=8085
+      - USER_SERVICE_URL=http://user-service:8081
+      - CANDIDATE_SERVICE_URL=http://candidate-service:8082
+      - RECRUITER_SERVICE_URL=http://recruiter-service:8083
+      - JOB_SERVICE_URL=http://job-service:8084
+      - JWT_SECRET=${JWT_SECRET:-mySecretKey}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-86400000}
+    depends_on:
+      - postgres
+    networks:
+      - default
+  # =============================================================================
   # POSTGRES
   # =============================================================================
   postgres:
@@ -35,6 +54,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   pg_data:
