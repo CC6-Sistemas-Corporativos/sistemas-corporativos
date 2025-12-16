@@ -2,6 +2,7 @@ package com.cc6.job.classes.jobVacancys;
 
 import com.cc6.job.dtos.inscriptions.InscriptionRequestDto;
 import com.cc6.job.dtos.inscriptions.InscriptionResponseDto;
+import com.cc6.job.dtos.inscriptions.InscriptionUpdateDto;
 import com.cc6.job.dtos.jobs.JobRequestDto;
 import com.cc6.job.dtos.jobs.JobResponseDto;
 import com.cc6.job.dtos.jobs.JobUpdateDto;
@@ -120,7 +121,7 @@ public class JobController {
 
     @Operation(summary = "Cria uma nova inscrição para uma vaga", description = "Registra uma nova inscrição no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Vaga criada com sucesso e retornado."),
+            @ApiResponse(responseCode = "200", description = "Inscrição criada com sucesso e retornado."),
             @ApiResponse(responseCode = "400", description = "Dados de requisição inválidos.")
     })
     @PostMapping("/{id}/inscriptions")
@@ -130,5 +131,25 @@ public class JobController {
     ){
         return ResponseEntity.ok(this.service.createInscription(id, request));
     }
+
+    @Operation(summary = "Atualiza os dados de uma inscrição", description = "Atualiza uma inscrição no sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Inscrição criada com sucesso e retornado."),
+            @ApiResponse(responseCode = "400", description = "Dados de requisição inválidos.")
+    })
+    @PutMapping("/inscriptions/{id}")
+    public ResponseEntity<InscriptionResponseDto> updateInscription(
+            @PathVariable UUID id,
+            @RequestBody InscriptionUpdateDto request
+    ){
+        return ResponseEntity.ok(this.service.updateInscription(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        this.service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

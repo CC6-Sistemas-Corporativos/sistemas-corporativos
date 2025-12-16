@@ -20,6 +20,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "jobs_vacancy")
+@SQLRestriction("deleted_at IS NULL")
+@SQLDelete(sql = "UPDATE jobs_vacancy SET deleted_at = NOW() WHERE id = ?")
 public class JobVacancy {
 
     @Id
@@ -45,6 +47,9 @@ public class JobVacancy {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "jobVacancy", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Inscription> inscriptions = new HashSet<>();

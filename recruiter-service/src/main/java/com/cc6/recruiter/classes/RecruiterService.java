@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -89,6 +90,12 @@ public class RecruiterService {
 
         Recruiter updatedRecruiter = this.repository.saveAndFlush(recruiter);
         return this.mapper.map(updatedRecruiter);
+    }
+
+    public void delete(UUID id) {
+        Recruiter recruiter = this.findById(id);
+        recruiter.setDeletedAt(LocalDateTime.now());
+        this.repository.saveAndFlush(recruiter);
     }
 
 }

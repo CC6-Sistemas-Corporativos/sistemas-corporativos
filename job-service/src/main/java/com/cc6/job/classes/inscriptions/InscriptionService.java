@@ -4,6 +4,7 @@ import com.cc6.job.classes.enums.InscriptionStatus;
 import com.cc6.job.classes.jobVacancys.JobVacancy;
 import com.cc6.job.dtos.inscriptions.InscriptionRequestDto;
 import com.cc6.job.dtos.inscriptions.InscriptionResponseDto;
+import com.cc6.job.dtos.inscriptions.InscriptionUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,4 +60,12 @@ public class InscriptionService {
         return this.repository.findByJobVacancy_Id(pageable, id).map(this.mapper::map);
     }
 
+    public InscriptionResponseDto update(UUID id, InscriptionUpdateDto request) {
+        this.logger.info("[InscriptionService] Updating inscription ID: {} with status: {}", id, request.status());
+        Inscription inscription = this.findById(id);
+        inscription.setStatus(request.status());
+        Inscription updatedInscription = this.repository.saveAndFlush(inscription);
+        this.logger.info("[InscriptionService] Inscription ID: {} updated successfully", id);
+        return this.mapper.map(updatedInscription);
+    }
 }

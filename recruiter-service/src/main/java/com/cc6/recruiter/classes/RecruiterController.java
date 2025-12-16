@@ -44,4 +44,10 @@ public class RecruiterController {
         return ResponseEntity.ok(this.service.update(id, request));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        this.service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

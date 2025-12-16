@@ -52,6 +52,19 @@ public class UserController {
         return ResponseEntity.ok(this.service.getById(id));
     }
 
+    @Operation(summary = "Busca usuário por email", description = "Retorna os detalhes de um usuário específico utilizando seu email.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
+    })
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserResponseDto> getByEmail(
+            @Parameter(description = "Email do usuário a ser buscado.", example = "usuario@exemplo.com")
+            @PathVariable String email
+    ){
+        return ResponseEntity.ok(this.service.getByEmail(email));
+    }
+
     // --- CREATE ---
     @Operation(summary = "Cria um novo usuário", description = "Registra um novo usuário no sistema.")
     @ApiResponses(value = {
@@ -77,6 +90,12 @@ public class UserController {
             @RequestBody UserRequestDto request
     ){
         return ResponseEntity.ok(this.service.update(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
+        this.service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

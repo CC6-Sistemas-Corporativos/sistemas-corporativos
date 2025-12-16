@@ -7,6 +7,7 @@ import com.cc6.job.clients.RecruiterClient;
 import com.cc6.job.dtos.candidate.CandidateDto;
 import com.cc6.job.dtos.inscriptions.InscriptionRequestDto;
 import com.cc6.job.dtos.inscriptions.InscriptionResponseDto;
+import com.cc6.job.dtos.inscriptions.InscriptionUpdateDto;
 import com.cc6.job.dtos.jobs.JobRequestDto;
 import com.cc6.job.dtos.jobs.JobResponseDto;
 import com.cc6.job.dtos.jobs.JobUpdateDto;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -138,6 +140,18 @@ public class JobService {
         this.logger.info("[JobService] Inscription created successfully with ID: {}", result.id());
 
         return result;
+    }
+
+    public InscriptionResponseDto updateInscription(UUID id, InscriptionUpdateDto request) {
+        this.logger.info("[JobService] Updating inscription with ID: {}", id);
+        return this.inscriptionService.update(id, request);
+    }
+
+    public void delete(UUID id) {
+        this.logger.info("[JobService] Deleting job vacancy with ID: {}", id);
+        JobVacancy jobVacancy = this.findById(id);
+        jobVacancy.setDeletedAt(LocalDateTime.now());
+        this.repository.saveAndFlush(jobVacancy);
     }
 
     // endregion
